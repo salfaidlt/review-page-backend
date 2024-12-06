@@ -5,7 +5,11 @@ const getAllReviews = async (req, res) => {
     const reviews = await PrismaClient.review.findMany({
         include: {
             user: true, // Include user details
-            reviewComments: true, // Include associated comments
+            reviewComments: {
+                include: {
+                    user: true
+                }
+            }, // Include associated comments
             ReviewLike: true, // Include likes if relevant
         },
     })
@@ -34,5 +38,27 @@ const addNewReview = async (req, res) => {
     
 }
 
+const addCommentToReview = async (req, res) => {
+    const { comment, email, reviewId } = req.body
+    const user = await PrismaClient.user.findUnique({
+        where: { email }
+    })
+    if (user) {
+        const userId = user.id
+        const reviewComment = await PrismaClient.reviewComment.create({
+            data: { content: comment, userId, reviewId}
+        })
+        console.log('====================================');
+        console.log(reviewComment);
+        console.log('====================================');
+        res.status(201).json(reviewComment)
+    } else {
+        res.status(401).json({
+            message: "User not found"
+        })
+    }
+}
+
 module.exports.getAllReviews = getAllReviews
 module.exports.addNewReview = addNewReview
+module.exports.addCommentToReview = addCommentToReview
