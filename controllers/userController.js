@@ -8,9 +8,6 @@ const checkAndAddUser = async (req, res) => {
         let user = await PrismaClient.user.findUnique({
             where: { email: email }
         })
-        console.log('====================================');
-        console.log(user);
-        console.log('====================================');
     
         if (!user && name) {
             let user = await PrismaClient.user.create({
@@ -19,15 +16,15 @@ const checkAndAddUser = async (req, res) => {
                     email: email
                 }
             })
-            res.status(200).json({
-                message: "user created",
-                user
-            })
+            console.log('====================================');
+            console.log("just created " + user);
+            console.log('====================================');
+            res.status(201).json(user)
         }
-        res.status(200).json({
-            message: "user already exists", 
-            user
-        })
+        console.log('====================================');
+        console.log(user);
+        console.log('====================================');
+        res.status(200).json(user)
     } catch (error) {
         console.error(error)
     }

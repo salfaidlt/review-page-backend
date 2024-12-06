@@ -25,7 +25,6 @@ model User {
 
 model Review {
   id             String          @id @default(auto()) @map("_id") @db.ObjectId
-  name           String
   service        String
   comment        String
   rating         Int
