@@ -21,9 +21,9 @@ const checkAndAddUser = async (req, res) => {
             console.log('====================================');
             res.status(201).json(user)
         }
-        console.log('====================================');
+        // console.log('====================================');
         // console.log(user);
-        console.log('====================================');
+        // console.log('====================================');
         res.status(200).json(user)
     } catch (error) {
         console.error(error)
